@@ -14,8 +14,8 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     @Transactional
-    public UserDto findById(int id) {
-        return userObject.findById(id);
+    public UserDto findById(int idUser) {
+        return userObject.findById(idUser);
     }
 
     @Override
@@ -34,14 +34,14 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     @Transactional
-    public void updateUser(int id, UserDto updatedUser) {
-        userObject.updateUser(id, updatedUser);
+    public void updateUser(int idUser, UserDto updatedUser) {
+        userObject.updateUser(idUser, updatedUser);
     }
 
     @Override
     @Transactional
-    public void deleteUser(int id) {
-        userObject.deleteUser(id);
+    public void deleteUser(int idUser) {
+        userObject.deleteUser(idUser);
     }
 
 }

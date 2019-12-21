@@ -46,7 +46,6 @@ public class UserRepository {
 
     public void update(User updatedUser) {
         Session session = sessionFactory.getCurrentSession();
-        System.out.println("=>>>>>>>>>>>>>>>>>>>>" + updatedUser.getId());
         session.update(updatedUser);
     }
 

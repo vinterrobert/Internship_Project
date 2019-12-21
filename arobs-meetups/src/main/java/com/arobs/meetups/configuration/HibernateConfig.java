@@ -17,7 +17,7 @@ import java.util.Properties;
 
 @Configuration
 @ComponentScan(basePackages = {
-        "com.arobs.internship.demointernship.configuration"
+        "com.arobs.meetups.entities"
 })
 @PropertySource("classpath:database.properties")
 @EnableTransactionManagement

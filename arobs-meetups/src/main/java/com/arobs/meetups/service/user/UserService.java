@@ -7,12 +7,10 @@ import java.util.List;
 @Service
 public interface UserService {
 
-    UserDto findById(int id) throws ClassNotFoundException;
-
+    UserDto findById(int idUser) throws ClassNotFoundException;
     List<UserDto> getAllUsers();
-
+    UserDto findByEmail(String email);
     void createUser(UserDto userDTO);
-    public void updateUser(int id, UserDto updatedUser);
-    public UserDto findByEmail(String email);
-    public void deleteUser(int id);
+    void updateUser(int idUser, UserDto updatedUser);
+    void deleteUser(int idUser);
 }
