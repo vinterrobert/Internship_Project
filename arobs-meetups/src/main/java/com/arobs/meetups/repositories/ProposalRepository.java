@@ -22,15 +22,6 @@ public class ProposalRepository {
         return session.get(Proposal.class, proposalId);
     }
 
-    public User findByEmail(String email) {
-
-        Session session = sessionFactory.getCurrentSession();
-        Query hql = session.createQuery("from User u where u.email = :email")
-                .setParameter("email", email);
-        User foundUser = (User)hql.getSingleResult();
-        return foundUser;
-    }
-
     public List<Proposal> getAll() {
 
         Session session = sessionFactory.getCurrentSession();

@@ -38,7 +38,7 @@ public class ProposalController {
 
     @GetMapping (path = "/language{language}")
     public ResponseEntity<List<ProposalDto>> getAllWithSameLanguage (@PathVariable String language) throws ClassNotFoundException{
-        return ResponseEntity.ok(proposalService.getAllWithSameType(language));
+        return ResponseEntity.ok(proposalService.getAllWithSameLanguage(language));
     }
 
     @GetMapping (path = "/user{id}")

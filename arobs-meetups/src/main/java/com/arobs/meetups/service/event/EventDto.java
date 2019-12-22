@@ -1,61 +1,28 @@
-package com.arobs.meetups.entities;
+package com.arobs.meetups.service.event;
 
-import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Time;
+import com.arobs.meetups.entities.User;
+
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 
-@Entity
-@Table(name = "event")
-public class Event {
+public class EventDto {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "event_id", nullable = false)
-    private int id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    @Column(name = "title", nullable = false)
     private String title;
-
-    @Column(name = "description", nullable = false)
     private String description;
-
-    @Column(name = "difficulty", nullable = false)
+    private String type;
     private String difficulty;
-
-    @Column(name = "language", nullable = false)
     private String language;
-
-    @Column(name = "duration_min", nullable = false)
     private int durationInMinutes;
-
-    @Column(name = "max_people", nullable = false)
     private int maximumPeople;
-
-    @Column(name = "event_date", nullable = false)
     private Timestamp date;
-
-    @Column(name = "room", nullable = false)
     private String room;
 
-    @OneToMany(
-            mappedBy = "event",
-            cascade = CascadeType.ALL
-    )
-    Set<Attendance> attendees = new HashSet<>();
-
-    public int getId() {
-        return id;
+    public User getUser() {
+        return user;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getTitle() {
@@ -72,6 +39,14 @@ public class Event {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getDifficulty() {
@@ -120,13 +95,5 @@ public class Event {
 
     public void setRoom(String room) {
         this.room = room;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }
