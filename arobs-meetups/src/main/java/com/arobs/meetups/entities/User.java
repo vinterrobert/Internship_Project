@@ -1,5 +1,7 @@
 package com.arobs.meetups.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,13 +32,18 @@ public class User {
     @Column(name = "points")
     private int points;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(
             name = "vote",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "proposal_id")}
+            joinColumns = {@JoinColumn(name = "id_user", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "id_proposal", referencedColumnName = "proposal_id")}
     )
+    @JsonIgnore
     Set<Proposal> votedProposals = new HashSet<>();
+
+    public Set<Proposal> getVotedProposals() {
+        return votedProposals;
+    }
 
     @OneToMany(
             mappedBy = "user",

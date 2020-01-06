@@ -1,5 +1,7 @@
 package com.arobs.meetups.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,7 +40,8 @@ public class Proposal {
     @Column(name = "max_people", nullable = false)
     private int maximumPeople;
 
-    @ManyToMany(mappedBy = "votedProposals")
+    @ManyToMany(mappedBy = "votedProposals", cascade = {CascadeType.MERGE})
+    @JsonIgnore
     private Set<User> users = new HashSet<>();
 
     public int getId() {
@@ -113,4 +116,7 @@ public class Proposal {
         this.maximumPeople = maximumPeople;
     }
 
+    public Set<User> getUsers() {
+        return users;
+    }
 }
