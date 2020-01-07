@@ -1,8 +1,6 @@
 package com.arobs.meetups.entities;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
