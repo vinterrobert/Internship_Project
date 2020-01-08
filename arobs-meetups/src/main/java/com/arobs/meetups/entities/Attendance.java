@@ -1,13 +1,16 @@
 package com.arobs.meetups.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Entity
-@Table(name = "attendance")
+@Table(name = "attendance", uniqueConstraints=
+@UniqueConstraint(columnNames={"user_id", "event_id"}))
 public class Attendance {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "attendance_id", nullable = false)
     private int id;
 
@@ -20,10 +23,20 @@ public class Attendance {
     private Event event;
 
     @Column(name = "note", nullable = false)
+    @Min(value = 0, message = "Lowest note is 0")
+    @Max(value = 5, message = "Highest note is 5")
     private int note;
 
-    @Column(name = "comment", nullable = false)
+    @Column(name = "comment", nullable = false, length = 500)
     private String comment;
+
+    public Attendance(){}
+
+    public Attendance(User user, Event event){
+        this.user = user;
+        this.event = event;
+        this.comment = " ";
+    }
 
     public int getId() {
         return id;

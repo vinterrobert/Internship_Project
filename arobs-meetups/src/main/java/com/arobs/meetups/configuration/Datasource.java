@@ -17,7 +17,7 @@ public class Datasource {
     public DataSource customDataSource() {
         HikariConfig config = new HikariConfig();
         HikariDataSource ds;
-        config.setJdbcUrl("jdbc:mysql://localhost:3306/meetup");
+        config.setJdbcUrl("jdbc:mysql://localhost:3306/meetups");
         config.setDriverClassName("com.mysql.cj.jdbc.Driver");
         config.setUsername("root");
         config.setPassword("root");

@@ -1,6 +1,9 @@
 package com.arobs.meetups.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +13,7 @@ import java.util.Set;
 public class Event {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "event_id", nullable = false)
     private int id;
 
@@ -18,10 +21,10 @@ public class Event {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title", nullable = false, unique = true)
     private String title;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, length = 500)
     private String description;
 
     @Column(name = "difficulty", nullable = false)
@@ -31,12 +34,15 @@ public class Event {
     private String language;
 
     @Column(name = "duration_min", nullable = false)
+    @Min(value = 0, message = "Duration must have a positive value")
     private int durationInMinutes;
 
     @Column(name = "max_people", nullable = false)
+    @Min(value = 0, message = "People number must be a positive value")
     private int maximumPeople;
 
     @Column(name = "event_date", nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp date;
 
     @Column(name = "room", nullable = false)

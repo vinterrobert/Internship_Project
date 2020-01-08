@@ -15,7 +15,7 @@ public interface IAttendanceService {
     List<UserDto> getAllAttendeesForAnEvent(int idEvent);
     List<AttendanceDto> getAllAttendancesForAnEvent (int idEvent);
     double getAverageNoteForAnEvent (int idEvent);
-    void createAttendance(AttendanceDto newAttendanceDto);
-    void updateAttendance(int idAttendance, AttendanceDto updatedAttendanceDto);
+    void createAttendance(int idUser, int idEvent);
+    void updateAttendance(int idAttendance, String comment, int note);
     void deleteAttendance(int idAttendance);
 }

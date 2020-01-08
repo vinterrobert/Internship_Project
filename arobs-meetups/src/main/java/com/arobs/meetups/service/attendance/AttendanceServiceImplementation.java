@@ -45,14 +45,14 @@ public class AttendanceServiceImplementation implements IAttendanceService {
 
     @Override
     @Transactional
-    public void createAttendance(AttendanceDto newAttendanceDto) {
-        attendanceObject.createAttendance(newAttendanceDto);
+    public void createAttendance(int idUser, int idEvent) {
+        attendanceObject.createAttendance(idUser, idEvent);
     }
 
     @Override
     @Transactional
-    public void updateAttendance(int idAttendance, AttendanceDto updatedAttendanceDto) {
-        attendanceObject.updateAttendance(idAttendance, updatedAttendanceDto);
+    public void updateAttendance(int idAttendance, String comment, int note) {
+        attendanceObject.updateAttendance(idAttendance, comment, note);
     }
 
     @Override

@@ -1,8 +1,11 @@
 package com.arobs.meetups.service.attendance;
 
 import com.arobs.meetups.entities.Attendance;
+import com.arobs.meetups.entities.Event;
 import com.arobs.meetups.entities.User;
 import com.arobs.meetups.repositories.AttendanceRepository;
+import com.arobs.meetups.repositories.EventRepository;
+import com.arobs.meetups.repositories.UserRepository;
 import com.arobs.meetups.service.user.UserDto;
 import com.arobs.meetups.service.user.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,12 @@ public class AttendanceObject {
 
     @Autowired
     AttendanceRepository attendanceRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    EventRepository eventRepository;
 
     @Autowired
     AttendanceMapper attendanceMapper;
@@ -70,18 +79,18 @@ public class AttendanceObject {
         return attendanceRepository.getAverageNoteForAnEvent(idEvent);
     }
 
-    public void createAttendance(AttendanceDto newAttendanceDto){
-        Attendance newAttendance = attendanceMapper.map(newAttendanceDto, Attendance.class);
+    public void createAttendance(int idUser, int idEvent){
+        User requestedUser = userRepository.findById(idUser);
+        Event requestedEvent = eventRepository.findById(idEvent);
+        Attendance newAttendance = new Attendance(requestedUser, requestedEvent);
         attendanceRepository.createAttendance(newAttendance);
     }
 
-    public void updateAttendance(int idAttendance, AttendanceDto updatedAttendanceDto){
+    public void updateAttendance(int idAttendance, String comment, int note){
         Attendance requestedAttendance = attendanceRepository.findById(idAttendance);
-        Attendance updatedAttendance = attendanceMapper.map(updatedAttendanceDto, Attendance.class);
-        requestedAttendance.setComment(updatedAttendance.getComment());
-        requestedAttendance.setEvent(updatedAttendance.getEvent());
-        requestedAttendance.setNote(updatedAttendance.getNote());
-        requestedAttendance.setUser(updatedAttendance.getUser());
+        requestedAttendance.setComment(comment);
+        requestedAttendance.setNote(note);
+        attendanceRepository.updateAttendance(requestedAttendance);
     }
 
     public void deleteAttendnace(int idAttendance){

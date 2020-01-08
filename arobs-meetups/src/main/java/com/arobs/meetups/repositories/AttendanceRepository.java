@@ -1,6 +1,7 @@
 package com.arobs.meetups.repositories;
 
 import com.arobs.meetups.entities.Attendance;;
+import com.arobs.meetups.entities.Event;
 import com.arobs.meetups.entities.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

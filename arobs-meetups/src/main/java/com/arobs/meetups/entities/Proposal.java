@@ -3,6 +3,7 @@ package com.arobs.meetups.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +12,7 @@ import java.util.Set;
 public class Proposal {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "proposal_id", nullable = false)
     private int id;
 
@@ -19,10 +20,10 @@ public class Proposal {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title", nullable = false, unique = true)
     private String title;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, length = 500)
     private String description;
 
     @Column(name = "type", nullable = false)
@@ -35,9 +36,11 @@ public class Proposal {
     private String language;
 
     @Column(name = "duration_min", nullable = false)
+    @Min(value = 0, message = "Duration must be a positive value")
     private int durationInMinutes;
 
     @Column(name = "max_people", nullable = false)
+    @Min(value = 0, message = "People number must be a positive value")
     private int maximumPeople;
 
     @ManyToMany(mappedBy = "votedProposals", cascade = {CascadeType.MERGE})

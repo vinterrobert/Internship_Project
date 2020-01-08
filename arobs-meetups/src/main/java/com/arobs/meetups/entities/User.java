@@ -3,6 +3,9 @@ package com.arobs.meetups.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,26 +13,30 @@ import java.util.Set;
 @Table(name = "users")
 public class User {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "user_id")
     private int id;
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name", nullable = false, length = 150)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name", nullable = false, length = 150)
     private String lastName;
 
     @Column(name = "role", nullable = false)
     private String role;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
+    @Email(message = "Insert a valid email")
     private String email;
 
     @Column(name = "password", nullable = false)
+    @Size(min = 8, message = "The password should contain minimum 8 characters")
     private String password;
 
     @Column(name = "points")
+    @Min(value = 0, message = "Points value must be positive")
     private int points;
 
     @ManyToMany(cascade = {CascadeType.MERGE})

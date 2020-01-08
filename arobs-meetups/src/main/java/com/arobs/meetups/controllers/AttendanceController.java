@@ -42,15 +42,15 @@ public class AttendanceController {
         return ResponseEntity.ok(attendanceService.getAverageNoteForAnEvent(idEvent));
     }
 
-    @PostMapping(path = "/createAttendance")
-    public ResponseEntity<String> createAttendance(@RequestBody AttendanceDto attendanceDto) {
-        attendanceService.createAttendance(attendanceDto);
+    @PostMapping(path = "/createAttendance/user{idUser}/event{idEvent}")
+    public ResponseEntity<String> createAttendance(@PathVariable int idUser, @PathVariable int idEvent) {
+        attendanceService.createAttendance(idUser, idEvent);
         return ResponseEntity.ok("Attendance created");
     }
 
-    @PutMapping(path = "/updateAttendance{id}")
-    public ResponseEntity<String> updateAttendance (@RequestBody AttendanceDto attendanceDto, @PathVariable int id){
-        attendanceService.updateAttendance(id, attendanceDto);
+    @PutMapping(path = "/updateAttendance{id}/comment{comment}/note{note}")
+    public ResponseEntity<String> updateAttendance (@PathVariable int id, @PathVariable String comment, @PathVariable int note){
+        attendanceService.updateAttendance(id, comment, note);
         return ResponseEntity.ok("Attendance updated");
     }
 

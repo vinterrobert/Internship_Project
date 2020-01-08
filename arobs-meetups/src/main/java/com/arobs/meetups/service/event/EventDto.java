@@ -9,7 +9,6 @@ public class EventDto {
     private User user;
     private String title;
     private String description;
-    private String type;
     private String difficulty;
     private String language;
     private int durationInMinutes;
@@ -39,14 +38,6 @@ public class EventDto {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getDifficulty() {

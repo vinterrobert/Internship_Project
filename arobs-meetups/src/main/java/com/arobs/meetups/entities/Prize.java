@@ -1,6 +1,7 @@
 package com.arobs.meetups.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,15 +10,16 @@ import java.util.Set;
 public class Prize {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "prize_id", nullable = false)
     private int id;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, length = 500)
     private String description;
 
     @Column(name = "value", nullable = false)
-    private String value;
+    @Min(value = 0, message = "Value must be positive")
+    private int value;
 
     @OneToMany(
             mappedBy = "prize",
@@ -41,11 +43,11 @@ public class Prize {
         this.description = description;
     }
 
-    public String getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(int value) {
         this.value = value;
     }
 }

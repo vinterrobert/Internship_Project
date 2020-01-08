@@ -1,6 +1,7 @@
 package com.arobs.meetups.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.sql.Date;
 
 @Entity
@@ -8,7 +9,7 @@ import java.sql.Date;
 public class AwardingHistory {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "awarding_id", nullable = false)
     private int id;
 
@@ -20,6 +21,7 @@ public class AwardingHistory {
     private Date awardingDate;
 
     @Column(name = "number_of_points", nullable = false)
+    @Min(value = 0, message = "Points value must be positive")
     private int points;
 
     @ManyToOne(fetch = FetchType.LAZY)

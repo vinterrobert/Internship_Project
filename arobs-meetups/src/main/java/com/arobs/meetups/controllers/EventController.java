@@ -40,8 +40,8 @@ public class EventController {
         return ResponseEntity.ok(eventService.getAllWithSameRoom(room));
     }
 
-    @GetMapping (path = "/period{startDate}-{endDate}")
-    public ResponseEntity<List<EventDto>> getAllWithSameRoom (@PathVariable Timestamp startDate, @PathVariable Timestamp endDate) throws ClassNotFoundException{
+    @GetMapping (path = "/period/start{startDate}/end{endDate}")
+    public ResponseEntity<List<EventDto>> getAllInAPeriod (@PathVariable Timestamp startDate, @PathVariable Timestamp endDate) throws ClassNotFoundException{
         return ResponseEntity.ok(eventService.getAllEventsFromAPeriod(startDate, endDate));
     }
 

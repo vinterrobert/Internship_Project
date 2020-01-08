@@ -3,7 +3,7 @@ package com.arobs.meetups.service.prize;
 public class PrizeDto {
 
     private String description;
-    private String value;
+    private int value;
 
     public String getDescription() {
         return description;
@@ -13,11 +13,11 @@ public class PrizeDto {
         this.description = description;
     }
 
-    public String getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(int value) {
         this.value = value;
     }
 }
