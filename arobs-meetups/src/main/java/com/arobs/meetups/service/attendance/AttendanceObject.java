@@ -83,7 +83,10 @@ public class AttendanceObject {
         User requestedUser = userRepository.findById(idUser);
         Event requestedEvent = eventRepository.findById(idEvent);
         Attendance newAttendance = new Attendance(requestedUser, requestedEvent);
-        attendanceRepository.createAttendance(newAttendance);
+        //Testing if the limit is reached
+        if(requestedEvent.getAttendees().size() < requestedEvent.getMaximumPeople()) {
+            attendanceRepository.createAttendance(newAttendance);
+        }
     }
 
     public void updateAttendance(int idAttendance, String comment, int note){

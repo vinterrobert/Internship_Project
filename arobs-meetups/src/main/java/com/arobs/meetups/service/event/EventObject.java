@@ -124,6 +124,11 @@ public class EventObject {
 
     public void updateEvent(int idEvent, EventDto updatedEventDto) {
         Event requestedEvent = eventRepository.findById(idEvent);
+        //Converting date from String to Timestamp
+        //User because Timestamp cannot be deserialized
+        String date = updatedEventDto.getDate();
+        Timestamp dateTimestamp = Timestamp.valueOf(date);
+
         Event updatedEvent = eventMapper.map(updatedEventDto, Event.class);
         requestedEvent.setDescription(updatedEvent.getDescription());
         requestedEvent.setDifficulty(updatedEvent.getDifficulty());
@@ -133,8 +138,8 @@ public class EventObject {
         requestedEvent.setTitle(updatedEvent.getTitle());
         requestedEvent.setUser(updatedEvent.getUser());
         requestedEvent.setRoom(updatedEvent.getRoom());
-        requestedEvent.setDate(updatedEvent.getDate());
-        eventRepository.update(updatedEvent);
+        requestedEvent.setDate(dateTimestamp);
+        eventRepository.update(requestedEvent);
     }
 
     public void deleteEvent(int idEvent) {

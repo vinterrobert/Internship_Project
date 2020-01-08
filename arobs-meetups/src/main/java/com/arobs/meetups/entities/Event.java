@@ -1,6 +1,7 @@
 package com.arobs.meetups.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -42,7 +43,6 @@ public class Event {
     private int maximumPeople;
 
     @Column(name = "event_date", nullable = false)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp date;
 
     @Column(name = "room", nullable = false)
@@ -53,6 +53,15 @@ public class Event {
             cascade = CascadeType.ALL
     )
     Set<Attendance> attendees = new HashSet<>();
+
+    @JsonIgnore
+    public Set<Attendance> getAttendees() {
+        return attendees;
+    }
+
+    public void setAttendees(Set<Attendance> attendees) {
+        this.attendees = attendees;
+    }
 
     public int getId() {
         return id;

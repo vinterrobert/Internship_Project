@@ -13,7 +13,7 @@ public class EventDto {
     private String language;
     private int durationInMinutes;
     private int maximumPeople;
-    private Timestamp date;
+    private String date;
     private String room;
 
     public User getUser() {
@@ -72,11 +72,11 @@ public class EventDto {
         this.maximumPeople = maximumPeople;
     }
 
-    public Timestamp getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
