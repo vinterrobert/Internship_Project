@@ -39,7 +39,7 @@ public class User {
     @Min(value = 0, message = "Points value must be positive")
     private int points;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "vote",
             joinColumns = {@JoinColumn(name = "id_user", referencedColumnName = "user_id")},
@@ -62,13 +62,13 @@ public class User {
             mappedBy = "user",
             cascade = CascadeType.ALL
     )
-    Set<Attendance> proposalsCreated = new HashSet<>();
+    Set<Proposal> proposalsCreated = new HashSet<>();
 
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL
     )
-    Set<Attendance> eventsCreated = new HashSet<>();
+    Set<Event> eventsCreated = new HashSet<>();
 
     @OneToMany(
             mappedBy = "user",

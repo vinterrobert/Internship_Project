@@ -2,6 +2,7 @@ package com.arobs.meetups.service.vote;
 
 import com.arobs.meetups.entities.Proposal;
 import com.arobs.meetups.entities.User;
+import com.arobs.meetups.repositories.UserRepository;
 import com.arobs.meetups.repositories.VoteRepository;
 import com.arobs.meetups.repositories.VotedProposal;
 import com.arobs.meetups.service.proposal.ProposalDto;
@@ -22,6 +23,9 @@ public class VoteObject {
     VoteRepository voteRepository;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     ProposalMapper proposalMapper;
 
     @Autowired
@@ -39,7 +43,11 @@ public class VoteObject {
     }
 
     public void create(int idUser, int idProposal){
+        User voter = userRepository.findById(idUser);
+        int userCurrentPoints = voter.getPoints();
         voteRepository.create(idUser, idProposal);
+        voter.setPoints(userCurrentPoints + 1);
+        userRepository.update(voter);
     }
 
     public Set<UserDto> getAllOfAProposal(int idProposal){
@@ -51,10 +59,12 @@ public class VoteObject {
             }
         }
         return votersDto;
-
     }
 
     public void delete(int idUser, int idProposal){
+        User voter = userRepository.findById(idUser);
+        voter.setPoints(voter.getPoints() - 1);
+        userRepository.update(voter);
         voteRepository.delete(idUser, idProposal);
     }
 

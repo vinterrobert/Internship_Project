@@ -11,6 +11,7 @@ import com.arobs.meetups.service.user.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,18 +87,39 @@ public class AttendanceObject {
         //Testing if the limit is reached
         if(requestedEvent.getAttendees().size() < requestedEvent.getMaximumPeople()) {
             attendanceRepository.create(newAttendance);
+            //Updating attendee's points
+            int attendeeUsersPoints = requestedUser.getPoints();
+            requestedUser.setPoints(attendeeUsersPoints + 5);
+            userRepository.update(requestedUser);
         }
+
     }
 
     public void update(int idAttendance, String comment, int note){
         Attendance requestedAttendance = attendanceRepository.findById(idAttendance);
-        requestedAttendance.setComment(comment);
-        requestedAttendance.setNote(note);
-        attendanceRepository.update(requestedAttendance);
+        Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+        Event attendedEvent = requestedAttendance.getEvent();
+        User attendee = requestedAttendance.getUser();
+        int attendeeCurrentPoints = attendee.getPoints();
+        //Testing if the event took place
+        if(currentDate.after(attendedEvent.getDate())) {
+            requestedAttendance.setComment(comment);
+            requestedAttendance.setNote(note);
+            attendanceRepository.update(requestedAttendance);
+            attendee.setPoints(attendeeCurrentPoints + 2);
+            userRepository.update(attendee);
+        }
     }
 
     public void delete(int idAttendance){
         Attendance attendanceToDelete = attendanceRepository.findById(idAttendance);
+        //Updating attendee's points
+        User attendee = attendanceToDelete.getUser();
+        int currentAttendeePoints = attendee.getPoints();
+        attendee.setPoints(currentAttendeePoints - 5);
+        userRepository.update(attendee);
+        //Delete attendance
         attendanceRepository.delete(attendanceToDelete);
+
     }
 }
