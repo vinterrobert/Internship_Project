@@ -87,12 +87,12 @@ public class ProposalObject {
         return null;
     }
 
-    public void createProposal(ProposalDto newProposalDto) {
+    public void create(ProposalDto newProposalDto) {
         Proposal newProposal = proposalMapper.map(newProposalDto, Proposal.class);
         proposalRepository.create(newProposal);
     }
 
-    public void updateProposal(int idProposal, ProposalDto updatedProposalDto) {
+    public void update(int idProposal, ProposalDto updatedProposalDto) {
         Proposal requestedProposal = proposalRepository.findById(idProposal);
         Proposal updatedProposal = proposalMapper.map(updatedProposalDto, Proposal.class);
         requestedProposal.setDescription(updatedProposal.getDescription());
@@ -106,7 +106,7 @@ public class ProposalObject {
         proposalRepository.update(requestedProposal);
     }
 
-    public void deleteProposal(int idProposal) {
+    public void delete(int idProposal) {
         Proposal proposalToDelete = proposalRepository.findById(idProposal);
         if(proposalToDelete != null){
             proposalRepository.delete(proposalToDelete);

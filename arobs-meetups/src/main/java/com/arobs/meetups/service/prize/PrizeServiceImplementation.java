@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component
-public class PrizeServiceImplementation implements IPrizeService {
+public class PrizeServiceImplementation implements PrizeService {
 
     @Autowired
     PrizeObject prizeObject;
@@ -26,19 +26,19 @@ public class PrizeServiceImplementation implements IPrizeService {
 
     @Override
     @Transactional
-    public void createPrize(PrizeDto newPrizeDto) {
-        prizeObject.createPrize(newPrizeDto);
+    public void create(PrizeDto newPrizeDto) {
+        prizeObject.create(newPrizeDto);
     }
 
     @Override
     @Transactional
-    public void updatePrize(int idPrize, PrizeDto updatedPrizeDto) {
-        prizeObject.updatePrize(idPrize, updatedPrizeDto);
+    public void update(int idPrize, PrizeDto updatedPrizeDto) {
+        prizeObject.update(idPrize, updatedPrizeDto);
     }
 
     @Override
     @Transactional
-    public void deletePrize(int idPrize) {
-        prizeObject.deletePrize(idPrize);
+    public void delete(int idPrize) {
+        prizeObject.delete(idPrize);
     }
 }

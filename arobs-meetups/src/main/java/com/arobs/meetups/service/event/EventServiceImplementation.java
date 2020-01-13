@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Component
-public class EventServiceImplementation implements IEventService {
+public class EventServiceImplementation implements EventService {
 
     @Autowired
     EventObject eventObject;
@@ -21,8 +21,8 @@ public class EventServiceImplementation implements IEventService {
 
     @Override
     @Transactional
-    public List<EventDto> getAllEvents() {
-        return eventObject.getAllEvents();
+    public List<EventDto> getAll() {
+        return eventObject.getAll();
     }
 
     @Override
@@ -51,25 +51,25 @@ public class EventServiceImplementation implements IEventService {
 
     @Override
     @Transactional
-    public List<EventDto> getAllEventsFromAPeriod(Timestamp startDate, Timestamp endDate) {
-        return eventObject.getAllEventsFromAPeriod(startDate, endDate);
+    public List<EventDto> getAllFromAPeriod(Timestamp startDate, Timestamp endDate) {
+        return eventObject.getAllFromAPeriod(startDate, endDate);
     }
 
     @Override
     @Transactional
-    public void createEvent(int idProposal, String room, Timestamp date) {
-        eventObject.createEvent(idProposal, room, date);
+    public void create(int idProposal, String room, Timestamp date) {
+        eventObject.create(idProposal, room, date);
     }
 
     @Override
     @Transactional
-    public void updateEvent(int idEvent, EventDto updatedEvent) {
-        eventObject.updateEvent(idEvent, updatedEvent);
+    public void update(int idEvent, EventDto updatedEvent) {
+        eventObject.update(idEvent, updatedEvent);
     }
 
     @Override
     @Transactional
-    public void deleteEvent(int idEvent) {
-        eventObject.deleteEvent(idEvent);
+    public void delete(int idEvent) {
+        eventObject.delete(idEvent);
     }
 }

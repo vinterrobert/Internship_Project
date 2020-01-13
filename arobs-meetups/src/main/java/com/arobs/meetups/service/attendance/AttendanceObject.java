@@ -79,25 +79,25 @@ public class AttendanceObject {
         return attendanceRepository.getAverageNoteForAnEvent(idEvent);
     }
 
-    public void createAttendance(int idUser, int idEvent){
+    public void create(int idUser, int idEvent){
         User requestedUser = userRepository.findById(idUser);
         Event requestedEvent = eventRepository.findById(idEvent);
         Attendance newAttendance = new Attendance(requestedUser, requestedEvent);
         //Testing if the limit is reached
         if(requestedEvent.getAttendees().size() < requestedEvent.getMaximumPeople()) {
-            attendanceRepository.createAttendance(newAttendance);
+            attendanceRepository.create(newAttendance);
         }
     }
 
-    public void updateAttendance(int idAttendance, String comment, int note){
+    public void update(int idAttendance, String comment, int note){
         Attendance requestedAttendance = attendanceRepository.findById(idAttendance);
         requestedAttendance.setComment(comment);
         requestedAttendance.setNote(note);
-        attendanceRepository.updateAttendance(requestedAttendance);
+        attendanceRepository.update(requestedAttendance);
     }
 
-    public void deleteAttendnace(int idAttendance){
+    public void delete(int idAttendance){
         Attendance attendanceToDelete = attendanceRepository.findById(idAttendance);
-        attendanceRepository.deleteAttendance(attendanceToDelete);
+        attendanceRepository.delete(attendanceToDelete);
     }
 }

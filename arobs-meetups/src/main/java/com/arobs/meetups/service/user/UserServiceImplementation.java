@@ -24,24 +24,24 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     @Transactional
-    public List<UserDto> getAllUsers() {return userObject.getAllUsers();}
+    public List<UserDto> getAll() {return userObject.getAllUsers();}
 
     @Override
     @Transactional
-    public void createUser(UserDto newUser) {
-        userObject.createUser(newUser);
+    public void create(UserDto newUser) {
+        userObject.create(newUser);
     }
 
     @Override
     @Transactional
-    public void updateUser(int idUser, UserDto updatedUser) {
-        userObject.updateUser(idUser, updatedUser);
+    public void update(int idUser, UserDto updatedUser) {
+        userObject.update(idUser, updatedUser);
     }
 
     @Override
     @Transactional
-    public void deleteUser(int idUser) {
-        userObject.deleteUser(idUser);
+    public void delete(int idUser) {
+        userObject.delete(idUser);
     }
 
 }

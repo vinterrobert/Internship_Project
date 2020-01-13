@@ -16,35 +16,35 @@ public class UserController {
     UserService userService;
 
     @GetMapping(path = "/id{idUser}")
-    public ResponseEntity<UserDto> findById(@PathVariable int idUser) throws ClassNotFoundException {
+    public ResponseEntity<UserDto> findUserById(@PathVariable int idUser) throws ClassNotFoundException {
         return ResponseEntity.ok(userService.findById(idUser));
     }
 
     @GetMapping(path = "/email{email}")
-    public ResponseEntity<UserDto> findByEmail(@PathVariable String email) throws ClassNotFoundException {
+    public ResponseEntity<UserDto> findUserByEmail(@PathVariable String email) throws ClassNotFoundException {
         return ResponseEntity.ok(userService.findByEmail(email));
     }
 
     @GetMapping (path = "/allUsers")
     public ResponseEntity<List<UserDto>> getAllUsers () throws ClassNotFoundException{
-        return ResponseEntity.ok(userService.getAllUsers());
+        return ResponseEntity.ok(userService.getAll());
     }
 
     @PostMapping (path = "/createUser")
     public ResponseEntity<String> createUser(@RequestBody UserDto newUser) {
-        userService.createUser(newUser);
+        userService.create(newUser);
         return ResponseEntity.ok("User created");
     }
 
     @PutMapping(path = "/updateUser{id}")
     public ResponseEntity<String> updateUser (@RequestBody UserDto updatedUser, @PathVariable int id){
-        userService.updateUser(id, updatedUser);
+        userService.update(id, updatedUser);
         return ResponseEntity.ok("User updated");
     }
 
     @DeleteMapping(path = "/deleteUser{id}")
     public ResponseEntity<String> deleteUser (@PathVariable int id){
-        userService.deleteUser(id);
+        userService.delete(id);
         return ResponseEntity.ok("User deleted");
     }
 

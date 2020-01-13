@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component
-public class ProposalServiceImplementation implements IProposalService{
+public class ProposalServiceImplementation implements ProposalService {
 
     @Autowired
     ProposalObject proposalObject;
@@ -20,7 +20,7 @@ public class ProposalServiceImplementation implements IProposalService{
 
     @Override
     @Transactional
-    public List<ProposalDto> getAllProposals() {
+    public List<ProposalDto> getAll() {
         return proposalObject.getAllProposals();
     }
 
@@ -50,19 +50,19 @@ public class ProposalServiceImplementation implements IProposalService{
 
     @Override
     @Transactional
-    public void createProposal(ProposalDto proposalDto) {
-        proposalObject.createProposal(proposalDto);
+    public void create(ProposalDto proposalDto) {
+        proposalObject.create(proposalDto);
     }
 
     @Override
     @Transactional
-    public void updateProposal(int idProposal, ProposalDto updatedProposalDto) {
-        proposalObject.updateProposal(idProposal, updatedProposalDto);
+    public void update(int idProposal, ProposalDto updatedProposalDto) {
+        proposalObject.update(idProposal, updatedProposalDto);
     }
 
     @Override
     @Transactional
-    public void deleteProposal(int idProposal) {
-        proposalObject.deleteProposal(idProposal);
+    public void delete(int idProposal) {
+        proposalObject.delete(idProposal);
     }
 }

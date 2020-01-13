@@ -39,7 +39,7 @@ public class User {
     @Min(value = 0, message = "Points value must be positive")
     private int points;
 
-    @ManyToMany(cascade = {CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "vote",
             joinColumns = {@JoinColumn(name = "id_user", referencedColumnName = "user_id")},

@@ -59,7 +59,7 @@ public class EventRepository {
                 .setParameter(1, room).list();
     }
 
-    public List<Event> getAllEventsFromAPeriod(Timestamp startDate, Timestamp endDate){
+    public List<Event> getAllFromAPeriod(Timestamp startDate, Timestamp endDate){
 
         Session session = sessionFactory.getCurrentSession();
         return session.createNativeQuery("Select * From event where event_date >=? and event_date <=? order by event_date")

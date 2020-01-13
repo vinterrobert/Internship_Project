@@ -43,12 +43,12 @@ public class UserObject {
         return requestedDtoUsers;
     }
 
-    public void createUser(UserDto newUserDto){
+    public void create(UserDto newUserDto){
         User newUser = userMapper.map(newUserDto, User.class);
         userRepository.create(newUser);
     }
 
-    public void updateUser(int id, UserDto updatedUserDto){
+    public void update(int id, UserDto updatedUserDto){
         User updatedUser = userMapper.map(updatedUserDto, User.class);
         User requestedUser = userRepository.findById(id);
         requestedUser.setFirstName(updatedUser.getFirstName());
@@ -61,7 +61,7 @@ public class UserObject {
     }
 
 
-    public void deleteUser(int id){
+    public void delete(int id){
         User userToDelete = userRepository.findById(id);
         userRepository.delete(userToDelete);
 

@@ -21,6 +21,7 @@ public class UserRepository {
 
     public User findById(int userId) {
         Session session = sessionFactory.getCurrentSession();
+        LOGGER.info("Getting user with id:" + userId);
         return session.get(User.class, userId);
     }
 

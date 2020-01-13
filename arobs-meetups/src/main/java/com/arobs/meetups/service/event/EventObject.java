@@ -7,7 +7,6 @@ import com.arobs.meetups.repositories.ProposalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,7 @@ public class EventObject {
     @Autowired
     EventMapper eventMapper;
 
-    public EventDto findById(int idEvent) throws ClassNotFoundException {
+    public EventDto findById(int idEvent){
         Event requestedEvent = eventRepository.findById(idEvent);
         if(requestedEvent != null) {
             return eventMapper.map(requestedEvent, EventDto.class);
@@ -32,7 +31,7 @@ public class EventObject {
         return null;
     }
 
-    public List<EventDto> getAllEvents() {
+    public List<EventDto> getAll() {
         List<Event> requestedEvents = eventRepository.getAll();
         List<EventDto> requestedEventsDto = new ArrayList<>();
         if(!requestedEvents.isEmpty()){
@@ -93,8 +92,8 @@ public class EventObject {
         return null;
     }
 
-    public List<EventDto> getAllEventsFromAPeriod(Timestamp startDate, Timestamp endDate) {
-        List<Event> requestedEvents = eventRepository.getAllEventsFromAPeriod(startDate, endDate);
+    public List<EventDto> getAllFromAPeriod(Timestamp startDate, Timestamp endDate) {
+        List<Event> requestedEvents = eventRepository.getAllFromAPeriod(startDate, endDate);
         List<EventDto> requestedEventsDto = new ArrayList<>();
         if(!requestedEvents.isEmpty()){
             for(Event proposal : requestedEvents){
@@ -105,7 +104,7 @@ public class EventObject {
         return null;
     }
 
-    public void createEvent(int idProposal, String room, Timestamp date) {
+    public void create(int idProposal, String room, Timestamp date) {
         Proposal requestedProposal = proposalRepository.findById(idProposal);
         Event newEvent = new Event();
         newEvent.setDescription(requestedProposal.getDescription());
@@ -122,13 +121,8 @@ public class EventObject {
         proposalRepository.delete(requestedProposal);
     }
 
-    public void updateEvent(int idEvent, EventDto updatedEventDto) {
+    public void update(int idEvent, EventDto updatedEventDto) {
         Event requestedEvent = eventRepository.findById(idEvent);
-        //Converting date from String to Timestamp
-        //User because Timestamp cannot be deserialized
-        String date = updatedEventDto.getDate();
-        Timestamp dateTimestamp = Timestamp.valueOf(date);
-
         Event updatedEvent = eventMapper.map(updatedEventDto, Event.class);
         requestedEvent.setDescription(updatedEvent.getDescription());
         requestedEvent.setDifficulty(updatedEvent.getDifficulty());
@@ -138,11 +132,11 @@ public class EventObject {
         requestedEvent.setTitle(updatedEvent.getTitle());
         requestedEvent.setUser(updatedEvent.getUser());
         requestedEvent.setRoom(updatedEvent.getRoom());
-        requestedEvent.setDate(dateTimestamp);
+        requestedEvent.setDate(updatedEvent.getDate());
         eventRepository.update(requestedEvent);
     }
 
-    public void deleteEvent(int idEvent) {
+    public void delete(int idEvent) {
         Event eventToDelete = eventRepository.findById(idEvent);
         if(eventToDelete != null){
             eventRepository.delete(eventToDelete);

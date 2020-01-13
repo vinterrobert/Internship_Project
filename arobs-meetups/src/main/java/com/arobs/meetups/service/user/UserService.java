@@ -8,9 +8,9 @@ import java.util.List;
 public interface UserService {
 
     UserDto findById(int idUser) throws ClassNotFoundException;
-    List<UserDto> getAllUsers();
+    List<UserDto> getAll();
     UserDto findByEmail(String email);
-    void createUser(UserDto userDTO);
-    void updateUser(int idUser, UserDto updatedUser);
-    void deleteUser(int idUser);
+    void create(UserDto userDTO);
+    void update(int idUser, UserDto updatedUser);
+    void delete(int idUser);
 }

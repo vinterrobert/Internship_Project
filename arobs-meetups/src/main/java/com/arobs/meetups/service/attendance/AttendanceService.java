@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public interface IAttendanceService {
+public interface AttendanceService {
     AttendanceDto findById(int idAttendance);
     List<AttendanceDto> getAll();
     List<UserDto> getAllAttendeesForAnEvent(int idEvent);
     List<AttendanceDto> getAllAttendancesForAnEvent (int idEvent);
     double getAverageNoteForAnEvent (int idEvent);
-    void createAttendance(int idUser, int idEvent);
-    void updateAttendance(int idAttendance, String comment, int note);
-    void deleteAttendance(int idAttendance);
+    void create(int idUser, int idEvent);
+    void update(int idAttendance, String comment, int note);
+    void delete(int idAttendance);
 }

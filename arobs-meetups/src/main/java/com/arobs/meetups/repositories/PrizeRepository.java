@@ -26,12 +26,12 @@ public class PrizeRepository {
         return session.get(Prize.class, idPrize);
     }
 
-    public void createPrize (Prize newPrize){
+    public void create(Prize newPrize){
         Session session = sessionFactory.getCurrentSession();
         session.save(newPrize);
     }
 
-    public void update (Prize updatedPrize){
+    public void update(Prize updatedPrize){
         Session session = sessionFactory.getCurrentSession();
         session.update(updatedPrize);
     }

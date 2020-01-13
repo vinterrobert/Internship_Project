@@ -28,7 +28,7 @@ public class VoteObject {
     UserMapper userMapper;
 
     public Set<ProposalDto> allVotedProposalsOfAnUser(int idUser){
-        Set<Proposal> votedProposals = voteRepository.getAllVotesOfAnUser(idUser);
+        Set<Proposal> votedProposals = voteRepository.getAllOfAnUser(idUser);
         Set<ProposalDto> votedProposalsDto = new HashSet<>();
         if(!votedProposals.isEmpty()){
             for(Proposal proposal : votedProposals){
@@ -38,12 +38,12 @@ public class VoteObject {
         return votedProposalsDto;
     }
 
-    public void createVote(int idUser, int idProposal){
-        voteRepository.createVote(idUser, idProposal);
+    public void create(int idUser, int idProposal){
+        voteRepository.create(idUser, idProposal);
     }
 
-    public Set<UserDto> getAllVotesOfAProposal(int idProposal){
-        Set<User> voters = voteRepository.getAllVotesOfAProposal(idProposal);
+    public Set<UserDto> getAllOfAProposal(int idProposal){
+        Set<User> voters = voteRepository.getAllOfAProposal(idProposal);
         Set<UserDto> votersDto = new HashSet<>();
         if(!voters.isEmpty()){
             for(User user : voters){
@@ -54,8 +54,8 @@ public class VoteObject {
 
     }
 
-    public void deleteVote(int idUser, int idProposal){
-        voteRepository.deleteVote(idUser, idProposal);
+    public void delete(int idUser, int idProposal){
+        voteRepository.delete(idUser, idProposal);
     }
 
     public List<VotedProposal> getTopVotedProposals(){

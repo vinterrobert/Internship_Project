@@ -1,7 +1,7 @@
 package com.arobs.meetups.controllers;
 
 import com.arobs.meetups.service.attendance.AttendanceDto;
-import com.arobs.meetups.service.attendance.IAttendanceService;
+import com.arobs.meetups.service.attendance.AttendanceService;
 import com.arobs.meetups.service.user.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import java.util.List;
 public class AttendanceController {
 
     @Autowired
-    IAttendanceService attendanceService;
+    AttendanceService attendanceService;
 
     @GetMapping(path = "/id{idAttendance}")
     public ResponseEntity<AttendanceDto> findById(@PathVariable int idAttendance) throws ClassNotFoundException {
@@ -23,7 +23,7 @@ public class AttendanceController {
 
 
     @GetMapping (path = "/allAttendances")
-    public ResponseEntity<List<AttendanceDto>> getAllAttendances () throws ClassNotFoundException{
+    public ResponseEntity<List<AttendanceDto>> getAll () throws ClassNotFoundException{
         return ResponseEntity.ok(attendanceService.getAll());
     }
 
@@ -43,20 +43,20 @@ public class AttendanceController {
     }
 
     @PostMapping(path = "/createAttendance/user{idUser}/event{idEvent}")
-    public ResponseEntity<String> createAttendance(@PathVariable int idUser, @PathVariable int idEvent) {
-        attendanceService.createAttendance(idUser, idEvent);
+    public ResponseEntity<String> create(@PathVariable int idUser, @PathVariable int idEvent) {
+        attendanceService.create(idUser, idEvent);
         return ResponseEntity.ok("Attendance created");
     }
 
     @PutMapping(path = "/updateAttendance{id}/comment{comment}/note{note}")
-    public ResponseEntity<String> updateAttendance (@PathVariable int id, @PathVariable String comment, @PathVariable int note){
-        attendanceService.updateAttendance(id, comment, note);
+    public ResponseEntity<String> update(@PathVariable int id, @PathVariable String comment, @PathVariable int note){
+        attendanceService.update(id, comment, note);
         return ResponseEntity.ok("Attendance updated");
     }
 
     @DeleteMapping(path = "/deleteAttendance{id}")
-    public ResponseEntity<String> deleteAttendance (@PathVariable int id){
-        attendanceService.deleteAttendance(id);
+    public ResponseEntity<String> delete (@PathVariable int id){
+        attendanceService.delete(id);
         return ResponseEntity.ok("Attendance deleted");
     }
 

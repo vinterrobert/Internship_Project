@@ -9,11 +9,10 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public interface IVoteService {
-
+public interface VoteService {
     Set<ProposalDto> allVotedProposalsOfAnUser(int idUser);
-    void createVote(int idUser, int idProposal);
-    Set<UserDto> getAllVotesOfAProposal(int idProposal);
-    void deleteVote(int idUser, int idProposal);
+    Set<UserDto> getAllOfAProposal(int idProposal);
     List<VotedProposal> getTopVotedProposals();
+    void create(int idUser, int idProposal);
+    void delete(int idUser, int idProposal);
 }

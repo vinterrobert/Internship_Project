@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class AwardingHistoryRepository {
         return session.createQuery("FROM AwardingHistory").getResultList();
     }
 
-    public List<AwardingHistory> getAllAwardingsOfAnUser(int idUser){
+    public List<AwardingHistory> getAllOfAnUser(int idUser){
         Session session = sessionFactory.getCurrentSession();
         return session.createNativeQuery("SELECT * FROM awarding_history WHERE user_id =?")
                 .setParameter(1, idUser)
@@ -35,7 +34,7 @@ public class AwardingHistoryRepository {
                 .list();
     }
 
-    public List<Award> getAllAwardingsOfTheYear(String year){
+    public List<Award> getAllOfTheYear(String year){
         Session session = sessionFactory.getCurrentSession();
         List<Award> awards = new ArrayList<>();
         List<Object[]> awardsObject = session.createNativeQuery("" +
@@ -54,17 +53,17 @@ public class AwardingHistoryRepository {
         return awards;
     }
 
-    public void createAwardingHistory(AwardingHistory newAwardingHistory){
+    public void create(AwardingHistory newAwardingHistory){
         Session session = sessionFactory.getCurrentSession();
         session.save(newAwardingHistory);
     }
 
-    public void updateAwardingHistory(AwardingHistory updatedAwardingHistory){
+    public void update(AwardingHistory updatedAwardingHistory){
         Session session = sessionFactory.getCurrentSession();
         session.update(updatedAwardingHistory);
     }
 
-    public void deleteAwardingHistory(AwardingHistory awardingHistoryToDelete){
+    public void delete(AwardingHistory awardingHistoryToDelete){
         Session session = sessionFactory.getCurrentSession();
         session.delete(awardingHistoryToDelete);
     }

@@ -33,12 +33,12 @@ public class PrizeObject {
         return prizeMapper.map(requestedPrize, PrizeDto.class);
     }
 
-    public void createPrize(PrizeDto newPrizeDto){
+    public void create(PrizeDto newPrizeDto){
         Prize newPrize = prizeMapper.map(newPrizeDto, Prize.class);
-        prizeRepository.createPrize(newPrize);
+        prizeRepository.create(newPrize);
     }
 
-    public void updatePrize (int idPrize, PrizeDto updatedPrizeDto){
+    public void update(int idPrize, PrizeDto updatedPrizeDto){
         Prize requestedPrize = prizeRepository.findById(idPrize);
         Prize updatedPrize = prizeMapper.map(updatedPrizeDto, Prize.class);
         requestedPrize.setDescription(updatedPrize.getDescription());
@@ -46,7 +46,7 @@ public class PrizeObject {
         prizeRepository.update(requestedPrize);
     }
 
-    public void deletePrize (int idPrize){
+    public void delete(int idPrize){
         Prize prizeToDelete = prizeRepository.findById(idPrize);
         prizeRepository.delete(prizeToDelete);
     }

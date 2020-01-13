@@ -1,7 +1,5 @@
 package com.arobs.meetups.service.vote;
 
-import com.arobs.meetups.entities.Proposal;
-import com.arobs.meetups.entities.User;
 import com.arobs.meetups.repositories.VotedProposal;
 import com.arobs.meetups.service.proposal.ProposalDto;
 import com.arobs.meetups.service.user.UserDto;
@@ -9,12 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Component
-public class VoteServiceImplementation implements IVoteService{
+public class VoteServiceImplementation implements VoteService {
 
     @Autowired
     VoteObject voteObject;
@@ -27,20 +24,20 @@ public class VoteServiceImplementation implements IVoteService{
 
     @Override
     @Transactional
-    public void createVote(int idUser, int idProposal) {
-        voteObject.createVote(idUser, idProposal);
+    public void create(int idUser, int idProposal) {
+        voteObject.create(idUser, idProposal);
     }
 
     @Override
     @Transactional
-    public Set<UserDto> getAllVotesOfAProposal(int idProposal) {
-        return voteObject.getAllVotesOfAProposal(idProposal);
+    public Set<UserDto> getAllOfAProposal(int idProposal) {
+        return voteObject.getAllOfAProposal(idProposal);
     }
 
     @Override
     @Transactional
-    public void deleteVote(int idUser, int idProposal) {
-        voteObject.deleteVote(idUser, idProposal);
+    public void delete(int idUser, int idProposal) {
+        voteObject.delete(idUser, idProposal);
     }
 
     @Override

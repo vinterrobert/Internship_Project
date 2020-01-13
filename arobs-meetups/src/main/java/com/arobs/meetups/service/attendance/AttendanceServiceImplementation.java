@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component
-public class AttendanceServiceImplementation implements IAttendanceService {
+public class AttendanceServiceImplementation implements AttendanceService {
 
     @Autowired
     AttendanceObject attendanceObject;
@@ -45,19 +45,19 @@ public class AttendanceServiceImplementation implements IAttendanceService {
 
     @Override
     @Transactional
-    public void createAttendance(int idUser, int idEvent) {
-        attendanceObject.createAttendance(idUser, idEvent);
+    public void create(int idUser, int idEvent) {
+        attendanceObject.create(idUser, idEvent);
     }
 
     @Override
     @Transactional
-    public void updateAttendance(int idAttendance, String comment, int note) {
-        attendanceObject.updateAttendance(idAttendance, comment, note);
+    public void update(int idAttendance, String comment, int note) {
+        attendanceObject.update(idAttendance, comment, note);
     }
 
     @Override
     @Transactional
-    public void deleteAttendance(int idAttendance) {
-        attendanceObject.deleteAttendnace(idAttendance);
+    public void delete(int idAttendance) {
+        attendanceObject.delete(idAttendance);
     }
 }

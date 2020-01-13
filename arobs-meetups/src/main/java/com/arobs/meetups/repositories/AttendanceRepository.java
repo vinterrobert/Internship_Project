@@ -49,17 +49,17 @@ public class AttendanceRepository {
         return average.doubleValue();
     }
 
-    public void createAttendance(Attendance newAttendance) {
+    public void create(Attendance newAttendance) {
         Session session = sessionFactory.getCurrentSession();
         session.save(newAttendance);
     }
 
-    public void updateAttendance (Attendance updatedAttendance){
+    public void update(Attendance updatedAttendance){
         Session session = sessionFactory.getCurrentSession();
         session.update(updatedAttendance);
     }
 
-    public void deleteAttendance(Attendance attendanceToDelete){
+    public void delete(Attendance attendanceToDelete){
         Session session = sessionFactory.getCurrentSession();
         session.delete(attendanceToDelete);
     }

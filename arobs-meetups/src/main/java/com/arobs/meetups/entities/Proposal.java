@@ -43,7 +43,7 @@ public class Proposal {
     @Min(value = 0, message = "People number must be a positive value")
     private int maximumPeople;
 
-    @ManyToMany(mappedBy = "votedProposals", cascade = {CascadeType.MERGE})
+    @ManyToMany(mappedBy = "votedProposals", cascade = {CascadeType.ALL})
     @JsonIgnore
     private Set<User> users = new HashSet<>();
 
