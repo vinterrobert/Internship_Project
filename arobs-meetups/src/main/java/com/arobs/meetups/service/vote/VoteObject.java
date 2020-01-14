@@ -43,10 +43,21 @@ public class VoteObject {
     }
 
     public void create(int idUser, int idProposal){
-        User voter = userRepository.findById(idUser);
-        int userCurrentPoints = voter.getPoints();
         voteRepository.create(idUser, idProposal);
-        voter.setPoints(userCurrentPoints + 1);
+        User voter = userRepository.findById(idUser);
+        updateVotersPoints(voter, "create");
+    }
+
+    public void updateVotersPoints(User voter, String sqlOperation){
+        int voterCurrentPoints = voter.getPoints();
+        if(sqlOperation.equals("create")){
+            voter.setPoints(voterCurrentPoints + 1);
+        }
+        else{
+            if(sqlOperation.equals("delete")){
+                voter.setPoints(voterCurrentPoints - 1);
+            }
+        }
         userRepository.update(voter);
     }
 
@@ -62,10 +73,9 @@ public class VoteObject {
     }
 
     public void delete(int idUser, int idProposal){
-        User voter = userRepository.findById(idUser);
-        voter.setPoints(voter.getPoints() - 1);
-        userRepository.update(voter);
         voteRepository.delete(idUser, idProposal);
+        User voter = userRepository.findById(idUser);
+        updateVotersPoints(voter, "delete");
     }
 
     public List<VotedProposal> getTopVotedProposals(){

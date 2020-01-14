@@ -15,6 +15,7 @@ public class EventDto {
     private int maximumPeople;
     private String date;
     private String room;
+    private boolean closed = false;
 
     public User getUser() {
         return user;
@@ -86,5 +87,9 @@ public class EventDto {
 
     public void setRoom(String room) {
         this.room = room;
+    }
+
+    public boolean isClosed() {
+        return closed;
     }
 }

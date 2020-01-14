@@ -38,6 +38,7 @@ public class EventMapper extends ConfigurableMapper implements ApplicationContex
                         Timestamp dateTimestamp = Timestamp.valueOf(date);
                         event.setDate(dateTimestamp);
                         event.setRoom(eventDto.getRoom());
+                        event.setClosed(eventDto.isClosed());
                     }
                 })
                 .register();

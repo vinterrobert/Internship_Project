@@ -60,7 +60,6 @@ public class UserObject {
         userRepository.update(requestedUser);
     }
 
-
     public void delete(int id){
         User userToDelete = userRepository.findById(id);
         userRepository.delete(userToDelete);

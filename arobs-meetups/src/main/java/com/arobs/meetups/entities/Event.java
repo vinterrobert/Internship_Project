@@ -1,6 +1,4 @@
 package com.arobs.meetups.entities;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -47,6 +45,9 @@ public class Event {
 
     @Column(name = "room", nullable = false)
     private String room;
+
+    @Column(name = "closed", nullable = false)
+    private boolean closed;
 
     @OneToMany(
             mappedBy = "event",
@@ -141,5 +142,13 @@ public class Event {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
     }
 }

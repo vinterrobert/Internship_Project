@@ -10,8 +10,10 @@ import com.arobs.meetups.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -22,6 +24,7 @@ import java.util.Set;
 
 @Component
 @EnableAsync
+@EnableScheduling
 public class EventObject {
 
     @Autowired
@@ -119,7 +122,6 @@ public class EventObject {
 
     public void create(int idProposal, String room, Timestamp date) {
         Proposal requestedProposal = proposalRepository.findById(idProposal);
-        User presenter = requestedProposal.getUser();
         Event newEvent = new Event();
         newEvent.setDescription(requestedProposal.getDescription());
         newEvent.setDifficulty(requestedProposal.getDifficulty());
@@ -131,47 +133,9 @@ public class EventObject {
         newEvent.setRoom(room);
         newEvent.setDate(date);
         eventRepository.create(newEvent);
-        //Updating presenter point
-        updatePresenterPoints(presenter, requestedProposal.getDifficulty(), "create");
-        //Deleting proposal votes
         deleteVotesOfProposal(requestedProposal);
         //Deleting proposal
         proposalRepository.delete(requestedProposal);
-    }
-
-    void updatePresenterPoints(User presenter, String difficulty, String sqlOperation){
-        int presenterPoints = presenter.getPoints();
-        if(sqlOperation.equals("create")){
-            switch(difficulty){
-                case "easy":
-                    presenterPoints += 20;
-                    break;
-                case "medium":
-                    presenterPoints += 35;
-                    break;
-                case "difficult":
-                    presenterPoints += 50;
-                    break;
-            }
-        }
-        else
-        {
-            if(sqlOperation.equals("delete")){
-                switch(difficulty){
-                    case "easy":
-                        presenterPoints -= 20;
-                        break;
-                    case "medium":
-                        presenterPoints -= 35;
-                        break;
-                    case "difficult":
-                        presenterPoints -= 50;
-                        break;
-                }
-            }
-        }
-        presenter.setPoints(presenterPoints);
-        userRepository.update(presenter);
     }
 
     void deleteVotesOfProposal(Proposal acceptedProposal){
@@ -200,57 +164,47 @@ public class EventObject {
     public void delete(int idEvent) {
         Event eventToDelete = eventRepository.findById(idEvent);
         if(eventToDelete != null){
-            //Updating presenter's points
-            updatePresenterPoints(eventToDelete.getUser(), eventToDelete.getDifficulty(), "delete");
-            //Updating attendees's points
-            updateAttendeesPoints(eventToDelete);
-            //Delete event
             eventRepository.delete(eventToDelete);
         }
     }
 
-    public void updateAttendeesPoints(Event event){
-        Set<Attendance> attendencesOfEventSet = event.getAttendees();
-        for(Attendance attendance : attendencesOfEventSet){
-            User attendee = attendance.getUser();
-            int currentAttendeesPoints = attendee.getPoints();
-            attendee.setPoints(currentAttendeesPoints - 5);
+    @Async
+    @Scheduled(fixedRate = 60000)
+    @Transactional
+    public void updateUsersPointsFromEvent(){
+        List<Event> eventsList = eventRepository.getAll();
+        for(Event event: eventsList){
+            Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+            Timestamp eventDate = event.getDate();
+
+            if(currentDate.after(eventDate) && !(event.isClosed())){
+                event.setClosed(true);
+                eventRepository.update(event);
+
+                Set<Attendance> attendancesSet = event.getAttendees();
+                for(Attendance attendance : attendancesSet){
+                    User attendee = attendance.getUser();
+                    attendee.setPoints(attendee.getPoints() + 5);
+                    userRepository.update(attendee);
+                }
+                User presenter = event.getUser();
+                int currentPointsOfPresenter = presenter.getPoints();
+                int updatedPointsOfPresenter = currentPointsOfPresenter;
+
+                switch(event.getDifficulty()){
+                    case "easy":
+                        updatedPointsOfPresenter += 20;
+                        break;
+                    case "medium":
+                        updatedPointsOfPresenter += 35;
+                        break;
+                    case "difficult":
+                        updatedPointsOfPresenter += 50;
+                        break;
+                }
+                presenter.setPoints(updatedPointsOfPresenter);
+                userRepository.update(presenter);
+            }
         }
     }
-
-//    @Async
-//    @Scheduled(fixedRate = 2000)
-//    public void updateUsersPointsFromEvent(){
-//        List<Event> eventsList = eventRepository.getAll();
-//        for(Event event: eventsList){
-//            Timestamp currentDate = new Timestamp(System.currentTimeMillis());
-//            Timestamp eventDate = event.getDate();
-//
-//            if(currentDate.after(eventDate)){
-//                Set<Attendance> attendancesSet = event.getAttendees();
-//                for(Attendance attendance : attendancesSet){
-//                    User attendee = attendance.getUser();
-//                    attendee.setPoints(attendee.getPoints() + 5);
-//                    userRepository.update(attendee);
-//                }
-//                User presenter = event.getUser();
-//                int currentPointsOfPresenter = presenter.getPoints();
-//                int updatedPointsOfPresenter = currentPointsOfPresenter;
-//
-//                switch(event.getDifficulty()){
-//                    case "easy":
-//                        updatedPointsOfPresenter += 20;
-//                        break;
-//                    case "medium":
-//                        updatedPointsOfPresenter += 35;
-//                        break;
-//                    case "difficult":
-//                        updatedPointsOfPresenter += 50;
-//                        break;
-//                }
-//                presenter.setPoints(updatedPointsOfPresenter);
-//                userRepository.update(presenter);
-//            }
-//        }
-//    }
 }

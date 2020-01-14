@@ -62,7 +62,6 @@ public class AttendanceObject {
             }
         }
         return requestedUsersDto;
-
     }
 
     public List<AttendanceDto> getAllAttendancesForAnEvent (int idEvent){
@@ -84,42 +83,36 @@ public class AttendanceObject {
         User requestedUser = userRepository.findById(idUser);
         Event requestedEvent = eventRepository.findById(idEvent);
         Attendance newAttendance = new Attendance(requestedUser, requestedEvent);
-        //Testing if the limit is reached
-        if(requestedEvent.getAttendees().size() < requestedEvent.getMaximumPeople()) {
-            attendanceRepository.create(newAttendance);
-            //Updating attendee's points
-            int attendeeUsersPoints = requestedUser.getPoints();
-            requestedUser.setPoints(attendeeUsersPoints + 5);
-            userRepository.update(requestedUser);
+        if(!requestedEvent.isClosed()){
+            if(requestedEvent.getAttendees().size() < requestedEvent.getMaximumPeople()) {
+                attendanceRepository.create(newAttendance);
+            }
         }
-
     }
 
     public void update(int idAttendance, String comment, int note){
         Attendance requestedAttendance = attendanceRepository.findById(idAttendance);
-        Timestamp currentDate = new Timestamp(System.currentTimeMillis());
         Event attendedEvent = requestedAttendance.getEvent();
-        User attendee = requestedAttendance.getUser();
-        int attendeeCurrentPoints = attendee.getPoints();
-        //Testing if the event took place
-        if(currentDate.after(attendedEvent.getDate())) {
-            requestedAttendance.setComment(comment);
-            requestedAttendance.setNote(note);
-            attendanceRepository.update(requestedAttendance);
-            attendee.setPoints(attendeeCurrentPoints + 2);
-            userRepository.update(attendee);
+        if(attendedEvent != null){
+            if(attendedEvent.isClosed()) {
+                giveAttendeePointsForFeedback(requestedAttendance, comment, note);
+                attendanceRepository.update(requestedAttendance);
+            }
         }
+    }
+
+    public void giveAttendeePointsForFeedback(Attendance attendance, String comment, int note){
+        User attendee = attendance.getUser();
+        int attendeeCurrentPoints = attendee.getPoints();
+        attendance.setComment(comment);
+        attendance.setNote(note);
+        attendee.setPoints(attendeeCurrentPoints + 2);
+        userRepository.update(attendee);
     }
 
     public void delete(int idAttendance){
         Attendance attendanceToDelete = attendanceRepository.findById(idAttendance);
-        //Updating attendee's points
-        User attendee = attendanceToDelete.getUser();
-        int currentAttendeePoints = attendee.getPoints();
-        attendee.setPoints(currentAttendeePoints - 5);
-        userRepository.update(attendee);
-        //Delete attendance
         attendanceRepository.delete(attendanceToDelete);
-
     }
+
 }
