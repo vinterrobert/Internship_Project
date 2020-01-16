@@ -3,6 +3,7 @@ package com.arobs.meetups.controllers;
 import com.arobs.meetups.service.event.EventDto;
 import com.arobs.meetups.service.event.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,15 +52,32 @@ public class EventController {
     }
 
     @PostMapping(path = "/createEvent{idProposal}/{room}/{date}")
-    public ResponseEntity<String> createEvent(@PathVariable int idProposal, @PathVariable String room, @PathVariable Timestamp date) {
-        eventService.create(idProposal, room, date);
-        return ResponseEntity.ok("Event created");
+    public ResponseEntity createEvent(@PathVariable int idProposal, @PathVariable String room, @PathVariable Timestamp date) {
+        try {
+            eventService.create(idProposal, room, date);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Event created");
+        } catch(Exception e){
+            if(e.getMessage().equals("Date is not ok!")){
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            }else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            }
+        }
     }
 
     @PutMapping(path = "/updateEvent{id}")
-    public ResponseEntity<String> updateEvent (@RequestBody EventDto updatedEventDto, @PathVariable int id){
-        eventService.update(id, updatedEventDto);
-        return ResponseEntity.ok("Event updated");
+    public ResponseEntity updateEvent (@RequestBody EventDto updatedEventDto, @PathVariable int id){
+        try{
+            eventService.update(id, updatedEventDto);
+            return ResponseEntity.status(HttpStatus.OK).body("Event Updated!");
+        }catch(Exception e){
+            if(e.getMessage().equals("Date is not ok!")){
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            }else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            }
+        }
+
     }
 
     @DeleteMapping(path = "/deleteEvent{id}")

@@ -6,6 +6,7 @@ import com.arobs.meetups.repositories.AwardingHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +19,14 @@ public class AwardingHistoryObject {
     @Autowired
     AwardingHistoryMapper awardingHistoryMapper;
 
-    public AwardingHistoryDto findById(int idAwardingHistory){
+    public AwardingHistoryDto findById(int idAwardingHistory) throws Exception{
         AwardingHistory requestedAwardingHistory = awardingHistoryRepository.findById(idAwardingHistory);
-        return awardingHistoryMapper.map(requestedAwardingHistory, AwardingHistoryDto.class);
+        if(requestedAwardingHistory != null){
+            return awardingHistoryMapper.map(requestedAwardingHistory, AwardingHistoryDto.class);
+        }
+        else{
+            throw new Exception ("Awarding History doesn't exist!");
+        }
     }
 
     public List<AwardingHistoryDto> getAll(){
@@ -54,7 +60,15 @@ public class AwardingHistoryObject {
         awardingHistoryRepository.create(newAwardingHistory);
     }
 
-    public void update(int idAwardingHistory, AwardingHistoryDto updatedAwardingHistoryDto){
+    public boolean isDateOk(Timestamp selectedDate){
+        Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+        if(selectedDate.before(currentDate)){
+            return false;
+        }
+        return true;
+    }
+
+    public void update(int idAwardingHistory, AwardingHistoryDto updatedAwardingHistoryDto) throws Exception{
         AwardingHistory currentAwardingHistory = awardingHistoryRepository.findById(idAwardingHistory);
         currentAwardingHistory.setAwardingDate(updatedAwardingHistoryDto.getAwardingDate());
         currentAwardingHistory.setPoints(updatedAwardingHistoryDto.getPoints());
@@ -63,7 +77,7 @@ public class AwardingHistoryObject {
         awardingHistoryRepository.update(currentAwardingHistory);
     }
 
-    public void delete(int idAwardingHistory){
+    public void delete(int idAwardingHistory) throws Exception {
         AwardingHistory awardingHistoryToDelete = awardingHistoryRepository.findById(idAwardingHistory);
         awardingHistoryRepository.delete(awardingHistoryToDelete);
     }

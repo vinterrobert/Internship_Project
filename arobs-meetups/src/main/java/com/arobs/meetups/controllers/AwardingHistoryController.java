@@ -4,6 +4,7 @@ import com.arobs.meetups.repositories.Award;
 import com.arobs.meetups.service.awardinghistory.AwardingHistoryDto;
 import com.arobs.meetups.service.awardinghistory.AwardingHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +18,12 @@ public class AwardingHistoryController {
     AwardingHistoryService awardingHistoryService;
 
     @GetMapping(path = "/id{idAwardingHistory}")
-    public ResponseEntity<AwardingHistoryDto> findAwardingById(@PathVariable int idAwardingHistory) throws ClassNotFoundException {
-        return ResponseEntity.ok(awardingHistoryService.findById(idAwardingHistory));
+    public ResponseEntity findAwardingById(@PathVariable int idAwardingHistory){
+        try {
+            return ResponseEntity.ok(awardingHistoryService.findById(idAwardingHistory));
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Awarding doesn't  exist!");
+        }
     }
 
     @GetMapping(path = "/allAwardingsHistory")
@@ -43,14 +48,22 @@ public class AwardingHistoryController {
     }
 
     @PutMapping(path = "/updateAwardingHistory/id{idAwardingHistory}")
-    public ResponseEntity<String> updateAwardingHistory(@RequestBody AwardingHistoryDto awardingHistoryDto, @PathVariable int idAwardingHistory) throws ClassNotFoundException {
-        awardingHistoryService.update(idAwardingHistory, awardingHistoryDto);
-        return ResponseEntity.ok("Awarding History updated");
+    public ResponseEntity updateAwardingHistory(@RequestBody AwardingHistoryDto awardingHistoryDto, @PathVariable int idAwardingHistory) throws ClassNotFoundException {
+        try {
+            awardingHistoryService.update(idAwardingHistory, awardingHistoryDto);
+            return ResponseEntity.status(HttpStatus.OK).body("Awarding History updated");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @DeleteMapping(path = "/deleteAwardingHistory/id{idAwardingHistory}")
     public ResponseEntity<String> deleteAwardingHistory(@PathVariable int idAwardingHistory){
-        awardingHistoryService.delete(idAwardingHistory);
-        return ResponseEntity.ok("Awarding History deleted");
+        try{
+            awardingHistoryService.delete(idAwardingHistory);
+            return ResponseEntity.status(HttpStatus.OK).body("Awarding History deleted");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 }

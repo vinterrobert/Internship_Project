@@ -120,24 +120,40 @@ public class EventObject {
         return null;
     }
 
-    public void create(int idProposal, String room, Timestamp date) {
+    public void create(int idProposal, String room, Timestamp date) throws Exception{
         Proposal requestedProposal = proposalRepository.findById(idProposal);
-        Event newEvent = new Event();
-        newEvent.setDescription(requestedProposal.getDescription());
-        newEvent.setDifficulty(requestedProposal.getDifficulty());
-        newEvent.setDurationInMinutes(requestedProposal.getDurationInMinutes());
-        newEvent.setLanguage(requestedProposal.getLanguage());
-        newEvent.setTitle(requestedProposal.getTitle());
-        newEvent.setMaximumPeople(requestedProposal.getMaximumPeople());
-        newEvent.setUser(requestedProposal.getUser());
-        newEvent.setRoom(room);
-        newEvent.setDate(date);
-        eventRepository.create(newEvent);
-        deleteVotesOfProposal(requestedProposal);
-        //Deleting proposal
-        proposalRepository.delete(requestedProposal);
+        if(requestedProposal != null){
+            if(isDateOk(date)){
+                Event newEvent = new Event();
+                newEvent.setDescription(requestedProposal.getDescription());
+                newEvent.setDifficulty(requestedProposal.getDifficulty());
+                newEvent.setDurationInMinutes(requestedProposal.getDurationInMinutes());
+                newEvent.setLanguage(requestedProposal.getLanguage());
+                newEvent.setTitle(requestedProposal.getTitle());
+                newEvent.setMaximumPeople(requestedProposal.getMaximumPeople());
+                newEvent.setUser(requestedProposal.getUser());
+                newEvent.setRoom(room);
+                newEvent.setDate(date);
+                eventRepository.create(newEvent);
+                deleteVotesOfProposal(requestedProposal);
+                //Deleting proposal
+                proposalRepository.delete(requestedProposal);
+            }else{
+                throw new Exception ("Date is not ok!");
+            }
+
+        }else{
+            throw new Exception("Proposal doesn't exist!");
+        }
     }
 
+    public boolean isDateOk(Timestamp selectedDate){
+        Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+        if(selectedDate.before(currentDate)){
+            return false;
+        }
+        return true;
+    }
     void deleteVotesOfProposal(Proposal acceptedProposal){
         Set<User> votersOfTheProposal = acceptedProposal.getUsers();
         for(User voter : votersOfTheProposal){
@@ -146,19 +162,27 @@ public class EventObject {
         acceptedProposal.getUsers().clear();
     }
 
-    public void update(int idEvent, EventDto updatedEventDto) {
+    public void update(int idEvent, EventDto updatedEventDto) throws Exception{
         Event requestedEvent = eventRepository.findById(idEvent);
-        Event updatedEvent = eventMapper.map(updatedEventDto, Event.class);
-        requestedEvent.setDescription(updatedEvent.getDescription());
-        requestedEvent.setDifficulty(updatedEvent.getDifficulty());
-        requestedEvent.setDurationInMinutes(updatedEvent.getDurationInMinutes());
-        requestedEvent.setLanguage(updatedEvent.getLanguage());
-        requestedEvent.setMaximumPeople(updatedEvent.getMaximumPeople());
-        requestedEvent.setTitle(updatedEvent.getTitle());
-        requestedEvent.setUser(updatedEvent.getUser());
-        requestedEvent.setRoom(updatedEvent.getRoom());
-        requestedEvent.setDate(updatedEvent.getDate());
-        eventRepository.update(requestedEvent);
+        if(requestedEvent != null){
+            Event updatedEvent = eventMapper.map(updatedEventDto, Event.class);
+            if(isDateOk(updatedEvent.getDate())){
+                requestedEvent.setDescription(updatedEvent.getDescription());
+                requestedEvent.setDifficulty(updatedEvent.getDifficulty());
+                requestedEvent.setDurationInMinutes(updatedEvent.getDurationInMinutes());
+                requestedEvent.setLanguage(updatedEvent.getLanguage());
+                requestedEvent.setMaximumPeople(updatedEvent.getMaximumPeople());
+                requestedEvent.setTitle(updatedEvent.getTitle());
+                requestedEvent.setUser(updatedEvent.getUser());
+                requestedEvent.setRoom(updatedEvent.getRoom());
+                requestedEvent.setDate(updatedEvent.getDate());
+                eventRepository.update(requestedEvent);
+            }else{
+                throw new Exception("Date is incorrect!");
+            }
+        }else{
+            throw new Exception("Event doesn't exist!");
+        }
     }
 
     public void delete(int idEvent) {

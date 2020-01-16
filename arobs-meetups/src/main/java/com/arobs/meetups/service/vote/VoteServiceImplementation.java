@@ -24,7 +24,7 @@ public class VoteServiceImplementation implements VoteService {
 
     @Override
     @Transactional
-    public void create(int idUser, int idProposal) {
+    public void create(int idUser, int idProposal) throws Exception{
         voteObject.create(idUser, idProposal);
     }
 

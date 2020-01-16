@@ -2,12 +2,20 @@ package com.arobs.meetups.service.attendance;
 
 import com.arobs.meetups.entities.Event;
 import com.arobs.meetups.entities.User;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AttendanceDto {
 
+    @JsonProperty("attendee")
     private User user;
+
+    @JsonProperty("event")
     private Event event;
+
+    @JsonProperty("note")
     private int note;
+
+    @JsonProperty("comment")
     private String comment;
 
     public User getUser() {

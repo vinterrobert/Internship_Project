@@ -57,13 +57,13 @@ public class EventServiceImplementation implements EventService {
 
     @Override
     @Transactional
-    public void create(int idProposal, String room, Timestamp date) {
+    public void create(int idProposal, String room, Timestamp date) throws Exception{
         eventObject.create(idProposal, room, date);
     }
 
     @Override
     @Transactional
-    public void update(int idEvent, EventDto updatedEvent) {
+    public void update(int idEvent, EventDto updatedEvent) throws Exception{
         eventObject.update(idEvent, updatedEvent);
     }
 

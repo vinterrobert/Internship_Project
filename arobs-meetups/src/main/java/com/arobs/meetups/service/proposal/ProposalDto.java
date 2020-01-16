@@ -1,16 +1,32 @@
 package com.arobs.meetups.service.proposal;
 
 import com.arobs.meetups.entities.User;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ProposalDto {
 
+    @JsonProperty("user")
     private User user;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("type")
     private String type;
+
+    @JsonProperty("difficulty")
     private String difficulty;
+
+    @JsonProperty("language")
     private String language;
+
+    @JsonProperty("duration_in_minutes")
     private int durationInMinutes;
+
+    @JsonProperty("maximum_number_of_attendees")
     private int maximumPeople;
 
     public User getUser() {

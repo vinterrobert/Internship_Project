@@ -12,10 +12,10 @@ import java.util.List;
 public class UserObject {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     public UserDto findById(int idUser){
         User requestedUser = userRepository.findById(idUser);

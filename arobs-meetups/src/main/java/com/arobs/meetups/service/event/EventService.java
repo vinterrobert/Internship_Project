@@ -16,8 +16,8 @@ public interface EventService {
     List<EventDto> getAllOfAnUser(int idUser);
     List<EventDto> getAllWithSameRoom(String room);
     List<EventDto> getAllFromAPeriod(Timestamp startDate, Timestamp endDate);
-    void create(int idProposal, String room, Timestamp date);
-    void update(int idEvent, EventDto updatedEvent);
+    void create(int idProposal, String room, Timestamp date) throws Exception;
+    void update(int idEvent, EventDto updatedEvent) throws Exception;
     void delete(int idEvent);
 
 }

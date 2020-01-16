@@ -10,12 +10,12 @@ import java.util.List;
 
 @Service
 public interface AttendanceService {
-    AttendanceDto findById(int idAttendance);
+    AttendanceDto findById(int idAttendance) throws Exception;
     List<AttendanceDto> getAll();
     List<UserDto> getAllAttendeesForAnEvent(int idEvent);
-    List<AttendanceDto> getAllAttendancesForAnEvent (int idEvent);
+    List<AttendanceDto> getAllAttendancesForAnEvent(int idEvent);
     double getAverageNoteForAnEvent (int idEvent);
-    void create(int idUser, int idEvent);
-    void update(int idAttendance, String comment, int note);
-    void delete(int idAttendance);
+    void create(int idUser, int idEvent) throws Exception;
+    void update(int idAttendance, String comment, int note) throws Exception;
+    void delete(int idAttendance) throws Exception;
 }

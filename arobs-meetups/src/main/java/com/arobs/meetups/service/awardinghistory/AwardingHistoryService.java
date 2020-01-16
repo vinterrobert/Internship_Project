@@ -10,11 +10,11 @@ import java.util.List;
 
 @Service
 public interface AwardingHistoryService {
-    AwardingHistoryDto findById(int idAwardingHistory);
+    AwardingHistoryDto findById(int idAwardingHistory) throws Exception;
     List<AwardingHistoryDto> getAll();
     List<AwardingHistoryDto> getAllOfAnUser(int idUser);
     List<Award> getAllOfTheYear(String year);
     void create(AwardingHistoryDto newAwardingHistory);
-    void update(int idAwardingHistory, AwardingHistoryDto updatedAwardingHistoryDto);
-    void delete(int idAwardingHistoryToDelete);
+    void update(int idAwardingHistory, AwardingHistoryDto updatedAwardingHistoryDto) throws Exception;
+    void delete(int idAwardingHistoryToDelete) throws Exception;
 }

@@ -15,7 +15,7 @@ public class AwardingHistoryServiceImplementation implements AwardingHistoryServ
 
     @Override
     @Transactional
-    public AwardingHistoryDto findById(int idAwardingHistory) {
+    public AwardingHistoryDto findById(int idAwardingHistory) throws Exception{
         return awardingHistoryObject.findById(idAwardingHistory);
     }
 
@@ -45,13 +45,13 @@ public class AwardingHistoryServiceImplementation implements AwardingHistoryServ
 
     @Override
     @Transactional
-    public void update(int idAwardingHistory, AwardingHistoryDto updatedAwardingHistoryDto) {
+    public void update(int idAwardingHistory, AwardingHistoryDto updatedAwardingHistoryDto) throws Exception{
         awardingHistoryObject.update(idAwardingHistory, updatedAwardingHistoryDto);
     }
 
     @Override
     @Transactional
-    public void delete(int idAwardingHistoryToDelete) {
+    public void delete(int idAwardingHistoryToDelete) throws Exception{
         awardingHistoryObject.delete(idAwardingHistoryToDelete);
     }
 }

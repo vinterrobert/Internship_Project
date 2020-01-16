@@ -5,6 +5,7 @@ import com.arobs.meetups.service.user.UserDto;
 import com.arobs.meetups.service.vote.VoteService;
 import com.arobs.meetups.repositories.VotedProposal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +20,13 @@ public class VoteController {
     VoteService voteService;
 
     @PostMapping(path = "/createVote/user{idUser}/proposal{idProposal}")
-    public ResponseEntity<String> createVote(@PathVariable int idUser, @PathVariable int idProposal) {
-        voteService.create(idUser, idProposal);
-        return ResponseEntity.ok("Vote created");
+    public ResponseEntity createVote(@PathVariable int idUser, @PathVariable int idProposal) {
+        try{
+            voteService.create(idUser, idProposal);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Vote created");
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @GetMapping(path = "/getAllVotedProposals/user{idUser}")

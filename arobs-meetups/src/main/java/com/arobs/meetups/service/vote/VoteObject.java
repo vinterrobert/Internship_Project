@@ -2,6 +2,7 @@ package com.arobs.meetups.service.vote;
 
 import com.arobs.meetups.entities.Proposal;
 import com.arobs.meetups.entities.User;
+import com.arobs.meetups.repositories.ProposalRepository;
 import com.arobs.meetups.repositories.UserRepository;
 import com.arobs.meetups.repositories.VoteRepository;
 import com.arobs.meetups.repositories.VotedProposal;
@@ -26,6 +27,9 @@ public class VoteObject {
     UserRepository userRepository;
 
     @Autowired
+    ProposalRepository proposalRepository;
+
+    @Autowired
     ProposalMapper proposalMapper;
 
     @Autowired
@@ -42,10 +46,14 @@ public class VoteObject {
         return votedProposalsDto;
     }
 
-    public void create(int idUser, int idProposal){
-        voteRepository.create(idUser, idProposal);
-        User voter = userRepository.findById(idUser);
-        updateVotersPoints(voter, "create");
+    public void create(int idUser, int idProposal) throws Exception{
+        if(userRepository.findById(idUser) != null && proposalRepository.findById(idProposal) != null){
+            voteRepository.create(idUser, idProposal);
+            User voter = userRepository.findById(idUser);
+            updateVotersPoints(voter, "create");
+        }else{
+            throw new Exception ("Selected user or proposal doesn't exist!");
+        }
     }
 
     public void updateVotersPoints(User voter, String sqlOperation){

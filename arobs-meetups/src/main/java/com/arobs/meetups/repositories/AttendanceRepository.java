@@ -15,12 +15,11 @@ import java.util.List;
 public class AttendanceRepository {
 
     @Autowired
-    SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     public Attendance findById(int idAttendance){
         Session session = sessionFactory.getCurrentSession();
         return session.get(Attendance.class, idAttendance);
-
     }
 
     public List<Attendance> getAll(){
@@ -63,5 +62,4 @@ public class AttendanceRepository {
         Session session = sessionFactory.getCurrentSession();
         session.delete(attendanceToDelete);
     }
-
 }

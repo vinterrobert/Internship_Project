@@ -16,17 +16,17 @@ public class UserController {
     UserService userService;
 
     @GetMapping(path = "/id{idUser}")
-    public ResponseEntity<UserDto> findUserById(@PathVariable int idUser) throws ClassNotFoundException {
+    public ResponseEntity<UserDto> findUserById(@PathVariable int idUser){
         return ResponseEntity.ok(userService.findById(idUser));
     }
 
     @GetMapping(path = "/email{email}")
-    public ResponseEntity<UserDto> findUserByEmail(@PathVariable String email) throws ClassNotFoundException {
+    public ResponseEntity<UserDto> findUserByEmail(@PathVariable String email){
         return ResponseEntity.ok(userService.findByEmail(email));
     }
 
     @GetMapping (path = "/allUsers")
-    public ResponseEntity<List<UserDto>> getAllUsers () throws ClassNotFoundException{
+    public ResponseEntity<List<UserDto>> getAllUsers (){
         return ResponseEntity.ok(userService.getAll());
     }
 

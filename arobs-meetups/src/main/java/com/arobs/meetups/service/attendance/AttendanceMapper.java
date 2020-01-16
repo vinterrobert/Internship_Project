@@ -12,16 +12,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AttendanceMapper extends ConfigurableMapper implements ApplicationContextAware {
-
     protected void configure(MapperFactory factory) {
         factory.classMap(Attendance.class, AttendanceDto.class)
                 .byDefault()
                 .register();
     }
-
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         init();
     }
-
 }

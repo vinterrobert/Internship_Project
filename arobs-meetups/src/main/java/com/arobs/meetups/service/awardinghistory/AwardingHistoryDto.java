@@ -2,14 +2,22 @@ package com.arobs.meetups.service.awardinghistory;
 
 import com.arobs.meetups.entities.Prize;
 import com.arobs.meetups.entities.User;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.sql.Date;
 
 public class AwardingHistoryDto {
 
+    @JsonProperty("user")
     private User user;
+
+    @JsonProperty("awarding_date")
     private Date awardingDate;
+
+    @JsonProperty("number_of_points")
     private int points;
+
+    @JsonProperty("prize")
     private Prize prize;
 
     public User getUser() {

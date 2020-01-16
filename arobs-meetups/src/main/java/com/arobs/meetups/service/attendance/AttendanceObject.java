@@ -33,12 +33,14 @@ public class AttendanceObject {
     @Autowired
     UserMapper userMapper;
 
-    public AttendanceDto findById(int idAttendance){
+    public AttendanceDto findById(int idAttendance) throws Exception{
         Attendance requestedAttendance = attendanceRepository.findById(idAttendance);
         if(requestedAttendance != null){
             return attendanceMapper.map(requestedAttendance, AttendanceDto.class);
+        }else
+        {
+            throw new Exception("Attendance doesn't exist!");
         }
-        return null;
     }
 
     public List<AttendanceDto> getAll(){
@@ -79,25 +81,33 @@ public class AttendanceObject {
         return attendanceRepository.getAverageNoteForAnEvent(idEvent);
     }
 
-    public void create(int idUser, int idEvent){
+    public void create(int idUser, int idEvent) throws Exception{
         User requestedUser = userRepository.findById(idUser);
         Event requestedEvent = eventRepository.findById(idEvent);
-        Attendance newAttendance = new Attendance(requestedUser, requestedEvent);
-        if(!requestedEvent.isClosed()){
-            if(requestedEvent.getAttendees().size() < requestedEvent.getMaximumPeople()) {
-                attendanceRepository.create(newAttendance);
+        if(requestedEvent == null || requestedUser == null){
+            throw new Exception ("User or Event doesn't exist!");
+        }else {
+            Attendance newAttendance = new Attendance(requestedUser, requestedEvent);
+            if (!requestedEvent.isClosed()) {
+                if (requestedEvent.getAttendees().size() < requestedEvent.getMaximumPeople()) {
+                    attendanceRepository.create(newAttendance);
+                }
             }
         }
     }
 
-    public void update(int idAttendance, String comment, int note){
+    public void update(int idAttendance, String comment, int note) throws Exception{
         Attendance requestedAttendance = attendanceRepository.findById(idAttendance);
         Event attendedEvent = requestedAttendance.getEvent();
         if(attendedEvent != null){
             if(attendedEvent.isClosed()) {
                 giveAttendeePointsForFeedback(requestedAttendance, comment, note);
                 attendanceRepository.update(requestedAttendance);
+            }else{
+                throw new Exception ("Event hasn't finished yet!");
             }
+        }else{
+            throw new Exception("Attendance doesn't exist!");
         }
     }
 
@@ -110,9 +120,18 @@ public class AttendanceObject {
         userRepository.update(attendee);
     }
 
-    public void delete(int idAttendance){
+    public void delete(int idAttendance) throws Exception{
         Attendance attendanceToDelete = attendanceRepository.findById(idAttendance);
-        attendanceRepository.delete(attendanceToDelete);
+        if(attendanceToDelete != null){
+            Event event = attendanceToDelete.getEvent();
+            if(event.isClosed()){
+                throw new Exception("Event has been presented. You can't delete the attendance");
+            }else{
+                attendanceRepository.delete(attendanceToDelete);
+            }
+        }else
+        {
+            throw new Exception("Attendance doesn't exist!");
+        }
     }
-
 }

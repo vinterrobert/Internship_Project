@@ -15,7 +15,7 @@ public class AttendanceServiceImplementation implements AttendanceService {
 
     @Override
     @Transactional
-    public AttendanceDto findById(int idAttendance) {
+    public AttendanceDto findById(int idAttendance)  throws Exception{
         return attendanceObject.findById(idAttendance);
     }
 
@@ -45,19 +45,19 @@ public class AttendanceServiceImplementation implements AttendanceService {
 
     @Override
     @Transactional
-    public void create(int idUser, int idEvent) {
+    public void create(int idUser, int idEvent) throws Exception{
         attendanceObject.create(idUser, idEvent);
     }
 
     @Override
     @Transactional
-    public void update(int idAttendance, String comment, int note) {
+    public void update(int idAttendance, String comment, int note) throws Exception{
         attendanceObject.update(idAttendance, comment, note);
     }
 
     @Override
     @Transactional
-    public void delete(int idAttendance) {
+    public void delete(int idAttendance) throws Exception{
         attendanceObject.delete(idAttendance);
     }
 }

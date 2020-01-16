@@ -1,20 +1,40 @@
 package com.arobs.meetups.service.event;
 
 import com.arobs.meetups.entities.User;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.sql.Timestamp;
 
 public class EventDto {
 
+    @JsonProperty("presenter")
     private User user;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("difficulty")
     private String difficulty;
+
+    @JsonProperty("language")
     private String language;
+
+    @JsonProperty("duration_in_minutes")
     private int durationInMinutes;
+
+    @JsonProperty("maximum_number_of_people")
     private int maximumPeople;
+
+    @JsonProperty("event_date")
     private String date;
+
+    @JsonProperty("room")
     private String room;
+
+    @JsonProperty("closed")
     private boolean closed = false;
 
     public User getUser() {

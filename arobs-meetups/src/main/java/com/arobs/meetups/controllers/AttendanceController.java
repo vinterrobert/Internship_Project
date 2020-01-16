@@ -4,6 +4,7 @@ import com.arobs.meetups.service.attendance.AttendanceDto;
 import com.arobs.meetups.service.attendance.AttendanceService;
 import com.arobs.meetups.service.user.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,13 +18,16 @@ public class AttendanceController {
     AttendanceService attendanceService;
 
     @GetMapping(path = "/id{idAttendance}")
-    public ResponseEntity<AttendanceDto> findById(@PathVariable int idAttendance) throws ClassNotFoundException {
-        return ResponseEntity.ok(attendanceService.findById(idAttendance));
+    public ResponseEntity findById(@PathVariable int idAttendance){
+        try{
+            return ResponseEntity.ok(attendanceService.findById(idAttendance));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Attendance doesn't exist!");
+        }
     }
 
-
     @GetMapping (path = "/allAttendances")
-    public ResponseEntity<List<AttendanceDto>> getAll () throws ClassNotFoundException{
+    public ResponseEntity<List<AttendanceDto>> getAll (){
         return ResponseEntity.ok(attendanceService.getAll());
     }
 
@@ -43,21 +47,36 @@ public class AttendanceController {
     }
 
     @PostMapping(path = "/createAttendance/user{idUser}/event{idEvent}")
-    public ResponseEntity<String> create(@PathVariable int idUser, @PathVariable int idEvent) {
-        attendanceService.create(idUser, idEvent);
-        return ResponseEntity.ok("Attendance created");
+    public ResponseEntity create(@PathVariable int idUser, @PathVariable int idEvent) {
+        try{
+            attendanceService.create(idUser, idEvent);
+            return ResponseEntity.status(HttpStatus.OK).body("Attendance created succesfully!");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User or Event doesn't exist!");
+        }
     }
 
     @PutMapping(path = "/updateAttendance{id}/comment{comment}/note{note}")
     public ResponseEntity<String> update(@PathVariable int id, @PathVariable String comment, @PathVariable int note){
-        attendanceService.update(id, comment, note);
-        return ResponseEntity.ok("Attendance updated");
+        try {
+            attendanceService.update(id, comment, note);
+            return ResponseEntity.status(HttpStatus.OK).body("Attendance updated");
+        }catch(Exception e){
+            if(e.getMessage().equals("Event hasn't finished yet!")){
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            }else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            }
+        }
     }
 
     @DeleteMapping(path = "/deleteAttendance{id}")
     public ResponseEntity<String> delete (@PathVariable int id){
-        attendanceService.delete(id);
-        return ResponseEntity.ok("Attendance deleted");
+        try{
+            attendanceService.delete(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Attendance deleted");
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Attendance doesn't exist!");
+        }
     }
-
 }
