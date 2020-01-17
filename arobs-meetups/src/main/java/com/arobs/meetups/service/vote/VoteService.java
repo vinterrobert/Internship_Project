@@ -11,7 +11,7 @@ import java.util.Set;
 @Service
 public interface VoteService {
     Set<ProposalDto> allVotedProposalsOfAnUser(int idUser);
-    Set<UserDto> getAllOfAProposal(int idProposal);
+    Set<UserDto> getAllOfAProposal(int idProposal) throws Exception;
     List<VotedProposal> getTopVotedProposals();
     void create(int idUser, int idProposal) throws Exception;
     void delete(int idUser, int idProposal);

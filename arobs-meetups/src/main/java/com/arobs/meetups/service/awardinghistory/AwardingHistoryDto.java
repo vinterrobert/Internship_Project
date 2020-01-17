@@ -8,6 +8,9 @@ import java.sql.Date;
 
 public class AwardingHistoryDto {
 
+    @JsonProperty("awarding_id")
+    private int id;
+
     @JsonProperty("user")
     private User user;
 
@@ -50,5 +53,13 @@ public class AwardingHistoryDto {
 
     public void setPrize(Prize prize) {
         this.prize = prize;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

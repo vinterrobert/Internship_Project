@@ -48,9 +48,13 @@ public class VoteObject {
 
     public void create(int idUser, int idProposal) throws Exception{
         if(userRepository.findById(idUser) != null && proposalRepository.findById(idProposal) != null){
-            voteRepository.create(idUser, idProposal);
-            User voter = userRepository.findById(idUser);
-            updateVotersPoints(voter, "create");
+            boolean added = voteRepository.create(idUser, idProposal);
+            if(added){
+                User voter = userRepository.findById(idUser);
+                updateVotersPoints(voter, "create");
+            }else{
+                throw new Exception("User already voted!");
+            }
         }else{
             throw new Exception ("Selected user or proposal doesn't exist!");
         }
@@ -69,15 +73,21 @@ public class VoteObject {
         userRepository.update(voter);
     }
 
-    public Set<UserDto> getAllOfAProposal(int idProposal){
-        Set<User> voters = voteRepository.getAllOfAProposal(idProposal);
-        Set<UserDto> votersDto = new HashSet<>();
-        if(!voters.isEmpty()){
-            for(User user : voters){
-                votersDto.add(userMapper.map(user, UserDto.class));
+    public Set<UserDto> getAllOfAProposal(int idProposal) throws Exception{
+        Proposal proposal = proposalRepository.findById(idProposal);
+        if(proposal != null){
+            Set<User> voters = voteRepository.getAllOfAProposal(idProposal);
+            Set<UserDto> votersDto = new HashSet<>();
+            if(!voters.isEmpty()){
+                for(User user : voters){
+                    votersDto.add(userMapper.map(user, UserDto.class));
+                }
             }
+            return votersDto;
+        }else{
+            throw new Exception ("Proposal doesn't exist!");
         }
-        return votersDto;
+
     }
 
     public void delete(int idUser, int idProposal){

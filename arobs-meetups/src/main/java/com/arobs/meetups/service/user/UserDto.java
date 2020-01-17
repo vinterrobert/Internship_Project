@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserDto {
 
+    @JsonProperty("user_id")
+    private int id;
+
     @JsonProperty("first_name")
     private String firstName;
 
@@ -68,5 +71,13 @@ public class UserDto {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

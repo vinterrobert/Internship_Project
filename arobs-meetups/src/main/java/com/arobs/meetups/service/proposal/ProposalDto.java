@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ProposalDto {
 
+    @JsonProperty("proposal_id")
+    private int id;
+
     @JsonProperty("user")
     private User user;
 
@@ -91,5 +94,13 @@ public class ProposalDto {
 
     public void setMaximumPeople(int maximumPeople) {
         this.maximumPeople = maximumPeople;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

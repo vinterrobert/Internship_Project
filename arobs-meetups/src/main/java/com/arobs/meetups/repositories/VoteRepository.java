@@ -51,11 +51,12 @@ public class VoteRepository {
         return votedProposals;
     }
 
-    public void create(int idUser, int idProposal){
+    public boolean create(int idUser, int idProposal){
         User user = userRepository.findById(idUser);
         Proposal proposal = proposalRepository.findById(idProposal);
-        user.getVotedProposals().add(proposal);
-        proposal.getUsers().add(user);
+        boolean userAdded = user.getVotedProposals().add(proposal);
+        boolean proposalAdded = proposal.getUsers().add(user);
+        return userAdded & proposalAdded;
     }
 
     public void delete(int idUser, int idProposal){

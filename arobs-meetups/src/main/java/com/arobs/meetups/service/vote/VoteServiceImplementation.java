@@ -30,7 +30,7 @@ public class VoteServiceImplementation implements VoteService {
 
     @Override
     @Transactional
-    public Set<UserDto> getAllOfAProposal(int idProposal) {
+    public Set<UserDto> getAllOfAProposal(int idProposal) throws Exception{
         return voteObject.getAllOfAProposal(idProposal);
     }
 

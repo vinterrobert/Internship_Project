@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AttendanceDto {
 
+    @JsonProperty("attendance_id")
+    private int id;
+
     @JsonProperty("attendee")
     private User user;
 
@@ -48,5 +51,13 @@ public class AttendanceDto {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

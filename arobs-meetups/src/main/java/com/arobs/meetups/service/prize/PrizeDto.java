@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PrizeDto {
 
+    @JsonProperty("prize_id")
+    private int id;
+
     @JsonProperty("description")
     private String description;
 
@@ -24,5 +27,13 @@ public class PrizeDto {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

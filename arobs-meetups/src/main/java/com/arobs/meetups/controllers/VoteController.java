@@ -35,8 +35,13 @@ public class VoteController {
     }
 
     @GetMapping(path = "/getAllVotesOfAProposal/proposal{idProposal}")
-    public ResponseEntity<Set<UserDto>> getAllVotesOfAProposal(@PathVariable int idProposal){
-        return ResponseEntity.ok(voteService.getAllOfAProposal(idProposal));
+    public ResponseEntity getAllVotesOfAProposal(@PathVariable int idProposal){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(voteService.getAllOfAProposal(idProposal));
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+
     }
 
     @DeleteMapping(path = "/deleteVote/user{idUser}/proposal{idProposal}")

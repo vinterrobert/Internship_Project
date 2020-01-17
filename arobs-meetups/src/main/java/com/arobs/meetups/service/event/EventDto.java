@@ -7,6 +7,9 @@ import java.sql.Timestamp;
 
 public class EventDto {
 
+    @JsonProperty("event_id")
+    private int id;
+
     @JsonProperty("presenter")
     private User user;
 
@@ -111,5 +114,17 @@ public class EventDto {
 
     public boolean isClosed() {
         return closed;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
     }
 }

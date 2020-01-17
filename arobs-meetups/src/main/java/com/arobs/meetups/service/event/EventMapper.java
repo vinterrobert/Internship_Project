@@ -27,6 +27,7 @@ public class EventMapper extends ConfigurableMapper implements ApplicationContex
                 .customize(new CustomMapper<Event, EventDto>(){
                     @Override
                     public void mapBtoA(EventDto eventDto, Event event, MappingContext context){
+                        event.setId(eventDto.getId());
                         event.setUser(eventDto.getUser());
                         event.setMaximumPeople(eventDto.getMaximumPeople());
                         event.setTitle(eventDto.getTitle());
